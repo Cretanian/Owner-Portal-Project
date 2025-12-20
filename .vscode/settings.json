@@ -1,0 +1,66 @@
+{
+  /* ----------------- General Editor ----------------- */
+
+  "editor.detectIndentation": false, // Yellow wavy line
+  "editor.tabSize": 4,
+  "editor.formatOnSave": true,
+  "editor.snippetSuggestions": "top", // Code prompt. Many plug-ins have code prompts, with code abbreviations appearing first at the top
+  // Whether to format the pasted content automatically
+  "editor.formatOnPaste": false,
+
+  /* ----------------- esLint ----------------- */
+
+  "eslint.enable": true,
+  "eslint.format.enable": false,
+  "eslint.validate": [
+    // esLint rule applies to files with the following suffixes. Default is ["javascript", "javascriptreact"]
+    "javascript",
+    "javascriptreact",
+    "html"
+  ],
+  // fix the code in ESlint format every time you save
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "never"
+  },
+
+  /* ----------------- Formatters ----------------- */
+
+  "[json]": {
+    // Format the JSON file using the JSON language function
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[html]": {
+    // format HTML files using vscode.html-language-features(vscode built-in rules), do not use prettier
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  /* ----------------- Search & files Exclusions  ----------------- */
+
+  "search.exclude": {
+    // VScode does not search these areas for file searches.
+    "**/node_modules": true,
+    "**/.DS_Store": true,
+    "**/.git": true,
+    "**/.gitignore": true,
+    "**/.vscode": true,
+    "**/build": true,
+    "**/dist": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true
+  },
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true // add a space between the function (name) and the following parentheses
+}
