@@ -4,10 +4,14 @@ const Axios = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
-export const getListings = async () => {
-  const result = await Axios.get("/listings");
+export const getStatements = async () => {
+  const result = await Axios.get("/statements");
 
-  console.log(result.data);
+  return result.data;
+};
+
+export const getStatementById = async (id) => {
+  const result = await Axios.get(`/statements/${id}`);
 
   return result.data;
 };

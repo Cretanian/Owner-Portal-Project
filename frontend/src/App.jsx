@@ -1,6 +1,5 @@
 import { useState } from "react";
 import "./App.css";
-import { getListings } from "../api";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
 import routeDispatcher from "./routes/routeDispatcher";

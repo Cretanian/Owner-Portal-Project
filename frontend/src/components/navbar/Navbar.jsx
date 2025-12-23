@@ -9,7 +9,7 @@ function Navbar({ links = [] }) {
 
       <div className={styles.links}>
         {links.map((link) => (
-          <Link to={link.to} className={styles.link}>
+          <Link key={link.to} to={link.to} className={styles.link}>
             {link.icon && <link.icon className={styles.icon} />}
             {link.title}
           </Link>
