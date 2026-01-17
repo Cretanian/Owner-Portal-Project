@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getStatementById, getStatements } from "../../../../api";
+import { getStatementById, getStatements } from "../../../../api/statements";
 import { DataGrid } from "@mui/x-data-grid";
 import { useParams } from "react-router";
 import { useMemo } from "react";
