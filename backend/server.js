@@ -13,5 +13,5 @@ const port = process.env.PORT || 5000;
 routes(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });

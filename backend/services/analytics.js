@@ -163,8 +163,6 @@ AnalyticsService.getPerChannelAnalytics = async (filters = {}) => {
     return filters_;
   });
 
-  console.log(filtersPerChannel);
-
   const results = await Promise.all(
     filtersPerChannel.map(async (filters) => {
       const formData = createFiltersFormData(filters);
