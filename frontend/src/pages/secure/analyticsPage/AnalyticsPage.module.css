@@ -24,3 +24,16 @@
   font-size: 1.25rem;
   font-weight: bold;
 }
+
+.grid {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 75% 25%;
+  gap: 1rem;
+}
+
+.chart-wrapper {
+  width: 100%;
+  min-width: 0; /* VERY important inside grid */
+}

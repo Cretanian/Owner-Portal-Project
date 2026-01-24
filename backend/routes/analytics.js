@@ -15,4 +15,10 @@ router.get("/monthly", async (req, res) => {
   return res.status(200).send(results);
 });
 
+router.get("/per-channel", async (req, res) => {
+  const results = await AnalyticsService.getPerChannelAnalytics(req.query);
+
+  return res.status(200).send(results);
+});
+
 module.exports = router;

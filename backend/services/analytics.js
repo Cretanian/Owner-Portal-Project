@@ -10,7 +10,7 @@ const createFiltersFormData = ({
   dateType,
   "channelIds[]": channelIds,
   "statuses[]": statuses,
-}) => {
+} = {}) => {
   const formData = new FormData();
 
   formData.append("format", "csv");
@@ -28,7 +28,7 @@ const createFiltersFormData = ({
   });
 
   (channelIds || []).forEach((channelIds, i) => {
-    formData.append(`statuses[${i}]`, channelIds);
+    formData.append(`channelIds[${i}]`, channelIds);
   });
 
   return formData;
@@ -149,6 +149,54 @@ AnalyticsService.getMonthlyAnalytics = async (filters = {}) => {
   }
 
   return results;
+};
+
+AnalyticsService.getPerChannelAnalytics = async (filters = {}) => {
+  const channelLabels = ["AirBnb", "Booking", "CHS"];
+  const channelIds = [[2018], [2005], [2000, 2013]];
+
+  const filtersPerChannel = channelIds.map((channelId, i) => {
+    const filters_ = JSON.parse(JSON.stringify(filters));
+
+    filters_["channelIds[]"] = channelId;
+
+    return filters_;
+  });
+
+  console.log(filtersPerChannel);
+
+  const results = await Promise.all(
+    filtersPerChannel.map(async (filters) => {
+      const formData = createFiltersFormData(filters);
+
+      const { data } = await Axios.post(
+        "finance/report/listingFinancials",
+        formData,
+      );
+
+      return data;
+    }),
+  );
+
+  const parsedResults = results.map((data) =>
+    CsvParser.parse(data, {
+      header: true,
+      skipEmptyLines: true,
+    }),
+  );
+
+  const summedRows = parsedResults.map((parsed) =>
+    parsed.data.find((row) => row["Listing ID"] === "0"),
+  );
+
+  const perChannelAnalytics = summedRows.map((row, i) => ({
+    channel: channelLabels[i],
+    channelIds: channelIds[i],
+    nights: row["Nights"],
+    revenue: row["rentalRevenue"],
+  }));
+
+  return perChannelAnalytics;
 };
 
 const calculateMinDateOfReservations = (reservations) => {

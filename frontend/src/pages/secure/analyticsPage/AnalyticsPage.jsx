@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { getMonthlyAnalytics, getMetrics } from "../../../../api/analytics";
+import {
+  getMonthlyAnalytics,
+  getMetrics,
+  getPerChannelAnalytics,
+} from "../../../../api/analytics";
 import { useEffect } from "react";
 import styles from "./AnalyticsPage.module.css";
 
-import { Line } from "react-chartjs-2";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   LineElement,
@@ -13,9 +17,11 @@ import {
   LinearScale,
   Tooltip,
   Legend,
+  ArcElement,
 } from "chart.js";
 
 ChartJS.register(
+  ArcElement,
   LineElement,
   BarElement,
   PointElement,
@@ -28,6 +34,7 @@ ChartJS.register(
 function AnalyticsPage() {
   const [metrics, setMetrics] = useState();
   const [monthlyAnalytics, setMonthlyAnalytics] = useState();
+  const [perChannelAnalytics, setPerChannelAnalytics] = useState();
 
   const fetchMetrics = async () => {
     const metrics = await getMetrics({
@@ -49,12 +56,25 @@ function AnalyticsPage() {
     setMonthlyAnalytics(monthlyAnalytics);
   };
 
+  const fetchPerChannelAnalytics = async () => {
+    const monthlyAnalytics = await getPerChannelAnalytics({
+      listingMapIds: ["454482", "454483"],
+      fromDate: "2025-01-01",
+      toDate: "2026-01-01",
+      dateType: "arrivalDate",
+      statuses: ["new", "modified"],
+    });
+
+    setPerChannelAnalytics(monthlyAnalytics);
+  };
+
   useEffect(() => {
     fetchMetrics();
     fetchMonthlyAnalytics();
+    fetchPerChannelAnalytics();
   }, []);
 
-  if (!metrics || !monthlyAnalytics) return;
+  if (!metrics || !monthlyAnalytics || !perChannelAnalytics) return;
 
   return (
     <>
@@ -68,8 +88,21 @@ function AnalyticsPage() {
         ))}
       </div>
       Analytics
-      <NightsOverTimeChart data={monthlyAnalytics} />
-      <RevenueOverTimeChart data={monthlyAnalytics} />
+      <div className={styles.grid}>
+        <div className={styles.chartWrapper}>
+          <RevenueOverTimeChart data={monthlyAnalytics} />
+        </div>
+        <div className={styles.chartWrapper}>
+          <RevenueByChannelPie data={perChannelAnalytics} />
+        </div>
+
+        <div className={styles.chartWrapper}>
+          <NightsOverTimeChart data={monthlyAnalytics} />
+        </div>
+        <div className={styles.chartWrapper}>
+          <NightsByChannelBar data={perChannelAnalytics} />
+        </div>
+      </div>
     </>
   );
 }
@@ -205,6 +238,67 @@ export function RevenueOverTimeChart({ data }) {
         scales: {
           x: { stacked: false, title: { display: true, text: "Month" } },
           y: { stacked: false, title: { display: true, text: "Revenue" } },
+        },
+      }}
+    />
+  );
+}
+
+export function RevenueByChannelPie({ data }) {
+  const labels = data.map((d) => d.channel);
+  const values = data.map((d) => Number(d.revenue));
+  const colors = labels.map(stringToColor);
+
+  return (
+    <Pie
+      data={{
+        labels,
+        datasets: [
+          {
+            data: values,
+            backgroundColor: colors,
+          },
+        ],
+      }}
+      options={{
+        responsive: true,
+        plugins: {
+          title: { display: true, text: "Total revenue by channel" },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.label}: €${ctx.parsed.toLocaleString()}`,
+            },
+          },
+        },
+      }}
+    />
+  );
+}
+
+export function NightsByChannelBar({ data }) {
+  const labels = data.map((d) => d.channel);
+  const values = data.map((d) => Number(d.nights));
+  const colors = labels.map(stringToColor);
+
+  return (
+    <Bar
+      data={{
+        labels,
+        datasets: [
+          {
+            label: "Nights",
+            data: values,
+            backgroundColor: colors,
+          },
+        ],
+      }}
+      options={{
+        responsive: true,
+        plugins: {
+          title: { display: true, text: "Nights per channel" },
+        },
+        scales: {
+          y: { title: { display: true, text: "Nights" } },
         },
       }}
     />

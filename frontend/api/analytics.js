@@ -15,3 +15,11 @@ export const getMonthlyAnalytics = async (filters) => {
 
   return result.data;
 };
+
+export const getPerChannelAnalytics = async (filters) => {
+  const result = await Axios.get("/analytics/per-channel", {
+    params: filters,
+  });
+
+  return result.data;
+};
