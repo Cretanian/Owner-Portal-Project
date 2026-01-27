@@ -1,5 +1,5 @@
 import React from "react";
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt, FaUser } from "react-icons/fa";
 import { MdOutlineAnalytics, MdOutlinePayments } from "react-icons/md";
 import Navbar from "../../components/navbar/Navbar";
 import { Outlet } from "react-router";
@@ -9,6 +9,11 @@ import styles from "./SecureRootLayout.module.css";
 
 function SecureRootLayout() {
   const links = [
+    {
+      to: "users",
+      icon: FaUser,
+      title: "Users",
+    },
     {
       to: "calendar",
       icon: FaRegCalendarAlt,

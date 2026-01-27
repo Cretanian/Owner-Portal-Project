@@ -4,12 +4,17 @@ import StatementsPage from "../pages/secure/statementsPage/StatementsPage";
 
 import SecureRootLayout from "../layouts/secureRootLayout/SecureRootLayout";
 import StatementPage from "../pages/secure/statementPage/StatementPage";
+import UsersPage from "../pages/secure/usersPage/UsersPage";
 
 const routes = [
   {
     path: "",
     Component: SecureRootLayout,
     children: [
+      {
+        path: "users",
+        Component: UsersPage,
+      },
       {
         path: "calendar",
         Component: CalendarPage,

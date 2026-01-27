@@ -16,11 +16,10 @@ module.exports = (sequelize, models, DataTypes) => {
       primaryKey: true,
     },
 
-    type: {
-      type: DataTypes.ENUM,
-      values: ["ADMIN", "OWNER"],
-      defaultValue: "OWNER",
+    email: {
+      type: DataTypes.STRING,
       allowNull: false,
+      unique: false,
     },
 
     hash: { type: DataTypes.STRING, allowNull: false },
