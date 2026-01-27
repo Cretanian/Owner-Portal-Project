@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const routes = require("./routes");
+const db = require("./database");
 
 app.use(cors({ credentials: false, origin: "http://localhost:5173" }));
 app.use(express.json({ limit: "15mb" }));
@@ -14,4 +15,8 @@ routes(app);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
+
+  require("./models");
+
+  db.authenticate();
 });
