@@ -30,8 +30,22 @@
   height: 1.25rem;
 }
 
+.userArea {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
 .user {
   display: flex;
   flex-grow: 0;
-  margin-left: auto;
+}
+
+.logoutButton {
+  border: 1px solid lightgray;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
 }

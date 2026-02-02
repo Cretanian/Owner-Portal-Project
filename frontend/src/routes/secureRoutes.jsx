@@ -5,12 +5,17 @@ import StatementsPage from "../pages/secure/statementsPage/StatementsPage";
 import SecureRootLayout from "../layouts/secureRootLayout/SecureRootLayout";
 import StatementPage from "../pages/secure/statementPage/StatementPage";
 import UsersPage from "../pages/secure/usersPage/UsersPage";
+import { Navigate } from "react-router";
 
 const routes = [
   {
     path: "",
     Component: SecureRootLayout,
     children: [
+      {
+        path: "",
+        Component: () => <Navigate to={"calendar"} replace />,
+      },
       {
         path: "users",
         Component: UsersPage,
@@ -30,6 +35,10 @@ const routes = [
       {
         path: "statements/:statementId",
         Component: StatementPage,
+      },
+      {
+        path: "login",
+        Component: () => <Navigate to={"/"} replace />,
       },
     ],
   },

@@ -3,12 +3,12 @@ import React from "react";
 import secureRoutes from "./secureRoutes";
 import adminRoutes from "./adminRoutes";
 import publicRoutes from "./publicRoutes";
+import { useUser } from "../context/userContextProvider/UserContextProvider";
 
 function routeDispatcher() {
-  // TODO:
-  // if user is not authenticated return publicRoutes
-  // if user is admin return admin
-  // else return secureRoutes
+  const { user } = useUser();
+
+  if (!user) return publicRoutes;
 
   return secureRoutes;
 }
