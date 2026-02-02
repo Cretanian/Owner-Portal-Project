@@ -3,15 +3,25 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const routes = require("./routes");
 const db = require("./database");
 
-app.use(cors({ credentials: false, origin: "http://localhost:5173" }));
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json({ limit: "15mb" }));
+app.use(cookieParser());
 
 const port = process.env.PORT || 5000;
 
 routes(app);
+
+app.use((err, req, res, _next) => {
+  console.error(err);
+
+  const message = err?.message || "Bad Request";
+
+  res.status(400).json({ error: message });
+});
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

@@ -11,8 +11,7 @@
 module.exports = (sequelize, models, DataTypes) => {
   const User = sequelize.define("user", {
     id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
 
@@ -24,6 +23,10 @@ module.exports = (sequelize, models, DataTypes) => {
 
     hash: { type: DataTypes.STRING, allowNull: false },
   });
+
+  User.associate = (allModels) => {
+    User.hasMany(allModels.Session, { foreignKey: "userId" });
+  };
 
   return User;
 };

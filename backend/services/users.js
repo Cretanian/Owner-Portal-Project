@@ -10,6 +10,12 @@ UserService.getAllUsers = async (filters = {}) => {
   return users;
 };
 
-UserService.setPasswordByUserId = async (filters = {}) => {};
+UserService.getUserById = async (id) => {
+  const { data } = await Axios.get(`user/${id}`);
+
+  const user = data.result;
+
+  return user;
+};
 
 module.exports = UserService;
