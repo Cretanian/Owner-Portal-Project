@@ -197,8 +197,8 @@ AnalyticsService.getPerChannelAnalytics = async (filters = {}) => {
   const perChannelAnalytics = summedRows.map((row, i) => ({
     channel: channelLabels[i],
     channelIds: channelIds[i],
-    nights: row["Nights"],
-    revenue: row["rentalRevenue"],
+    nights: row ? row["Nights"] : 0,
+    revenue: row ? row["rentalRevenue"] : 0,
   }));
 
   return perChannelAnalytics;

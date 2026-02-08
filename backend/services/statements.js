@@ -2,20 +2,25 @@ const Axios = require("../utils/axios");
 
 const StatementService = {};
 
-StatementService.getStatements = async () => {
+StatementService.getStatements = async (userId) => {
   const { data: response } = await Axios.get("/ownerStatements");
 
   if (!response.status === "success") throw new Error();
 
-  return response.result;
-};
+  let statements = response.result;
 
-StatementService.getStatementById = async (id) => {
-  const { data: response } = await Axios.get(`/ownerStatement/${id}`);
+  statements = await Promise.all(
+    statements.map(async (statement) => ({
+      ...statement,
+      ...(await StatementService.getStatementById(statement.id)),
+    })),
+  );
 
-  if (!response.status === "success") throw new Error();
+  statements = statements.filter(
+    (statement) => `${statement.propertyOwnerId}` === `${userId}`,
+  );
 
-  return response.result;
+  return statements;
 };
 
 StatementService.getStatementById = async (id) => {
@@ -51,9 +56,9 @@ StatementService.extractStatementBookings = (statement) => {
 
   const interestedColumns = statement.financeDataJson.columns
     .map((column, index) => ({ ...column, index }))
-    .filter((column) =>
-      tableColumns.find((tableColumn) => column.name === tableColumn)
-    );
+    .filter((column) => {
+      return !!tableColumns.find((tableColumn) => column.name === tableColumn);
+    });
 
   const bookings = statement.financeDataJson.rows.map((row, i) => {
     const booking = {};

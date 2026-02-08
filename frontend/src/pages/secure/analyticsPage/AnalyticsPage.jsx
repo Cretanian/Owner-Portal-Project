@@ -19,6 +19,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
+import { getListings } from "../../../../api/listings";
 
 ChartJS.register(
   ArcElement,
@@ -32,12 +33,32 @@ ChartJS.register(
 );
 
 function AnalyticsPage() {
+  const [listings, setListings] = useState();
+
+  const fetchListings = async () => {
+    const listings = await getListings();
+
+    setListings(listings);
+  };
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  if (!listings) return;
+
+  if (listings.length === 0) return "No listings";
+
+  return <AnalyticsPage_ listings={listings} />;
+}
+
+function AnalyticsPage_({ listings = [] }) {
   const [metrics, setMetrics] = useState();
   const [monthlyAnalytics, setMonthlyAnalytics] = useState();
   const [perChannelAnalytics, setPerChannelAnalytics] = useState();
 
   const [filters, setFilters] = useState({
-    listingMapIds: ["454482", "454483"],
+    listingMapIds: listings.map((listing) => `${listing.id}`),
     fromDate: "2025-01-01",
     toDate: "2026-01-01",
     statuses: ["new", "modified"],
@@ -91,6 +112,7 @@ function AnalyticsPage() {
         filters={filters}
         onChange={setFilters}
         onApply={handleApplyFilters}
+        allListings={listings}
       />
       Metrics
       <div className={styles.metrics}>
@@ -121,8 +143,8 @@ function AnalyticsPage() {
   );
 }
 
-function AnalyticsFilters({ filters, onChange, onApply }) {
-  const listingOptions = ["454482", "454483"];
+function AnalyticsFilters({ filters, allListings, onChange, onApply }) {
+  const listingOptions = allListings.map((listing) => listing.id);
   const statusOptions = ["new", "modified"];
 
   const handleMultiSelectChange = (event, key) => {

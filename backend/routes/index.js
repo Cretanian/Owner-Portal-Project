@@ -3,4 +3,5 @@ module.exports = function (app) {
   app.use("/analytics", require("./analytics"));
   app.use("/users", require("./users"));
   app.use("/auth", require("./auth"));
+  app.use("/listings", require("./listings"));
 };
