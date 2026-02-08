@@ -36,48 +36,62 @@ function AnalyticsPage() {
   const [monthlyAnalytics, setMonthlyAnalytics] = useState();
   const [perChannelAnalytics, setPerChannelAnalytics] = useState();
 
-  const fetchMetrics = async () => {
+  const [filters, setFilters] = useState({
+    listingMapIds: ["454482", "454483"],
+    fromDate: "2025-01-01",
+    toDate: "2026-01-01",
+    statuses: ["new", "modified"],
+  });
+
+  const fetchMetrics = async (filters) => {
     const metrics = await getMetrics({
-      listingMapIds: ["454482", "454483"],
+      ...filters,
+      dateType: "arrivalDate",
     });
 
     setMetrics(metrics);
   };
 
-  const fetchMonthlyAnalytics = async () => {
+  const fetchMonthlyAnalytics = async (filters) => {
     const monthlyAnalytics = await getMonthlyAnalytics({
-      listingMapIds: ["454482", "454483"],
-      fromDate: "2025-01-01",
-      toDate: "2026-01-01",
+      ...filters,
       dateType: "arrivalDate",
-      statuses: ["new", "modified"],
     });
 
     setMonthlyAnalytics(monthlyAnalytics);
   };
 
-  const fetchPerChannelAnalytics = async () => {
+  const fetchPerChannelAnalytics = async (filters) => {
     const monthlyAnalytics = await getPerChannelAnalytics({
-      listingMapIds: ["454482", "454483"],
-      fromDate: "2025-01-01",
-      toDate: "2026-01-01",
+      ...filters,
       dateType: "arrivalDate",
-      statuses: ["new", "modified"],
     });
 
     setPerChannelAnalytics(monthlyAnalytics);
   };
 
+  const handleApplyFilters = async () => {
+    await fetchMetrics(filters);
+    await fetchMonthlyAnalytics(filters);
+    await fetchPerChannelAnalytics(filters);
+  };
+
   useEffect(() => {
-    fetchMetrics();
-    fetchMonthlyAnalytics();
-    fetchPerChannelAnalytics();
+    fetchMetrics(filters);
+    fetchMonthlyAnalytics(filters);
+    fetchPerChannelAnalytics(filters);
   }, []);
 
   if (!metrics || !monthlyAnalytics || !perChannelAnalytics) return;
 
   return (
     <>
+      Filters
+      <AnalyticsFilters
+        filters={filters}
+        onChange={setFilters}
+        onApply={handleApplyFilters}
+      />
       Metrics
       <div className={styles.metrics}>
         {Object.keys(metrics).map((key) => (
@@ -104,6 +118,95 @@ function AnalyticsPage() {
         </div>
       </div>
     </>
+  );
+}
+
+function AnalyticsFilters({ filters, onChange, onApply }) {
+  const listingOptions = ["454482", "454483"];
+  const statusOptions = ["new", "modified"];
+
+  const handleMultiSelectChange = (event, key) => {
+    const selected = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value,
+    );
+
+    onChange((prev) => ({
+      ...prev,
+      [key]: selected,
+    }));
+  };
+
+  return (
+    <form
+      className={styles.filtersForm}
+      onSubmit={(event) => {
+        event.preventDefault();
+        onApply();
+      }}
+    >
+      <label className={styles.filtersField}>
+        Listing Map IDs
+        <select
+          multiple
+          value={filters.listingMapIds}
+          onChange={(event) => handleMultiSelectChange(event, "listingMapIds")}
+        >
+          {listingOptions.map((id) => (
+            <option key={id} value={id}>
+              {id}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <label className={styles.filtersField}>
+        From Date
+        <input
+          type="date"
+          value={filters.fromDate}
+          onChange={(event) =>
+            onChange((prev) => ({
+              ...prev,
+              fromDate: event.target.value,
+            }))
+          }
+        />
+      </label>
+
+      <label className={styles.filtersField}>
+        To Date
+        <input
+          type="date"
+          value={filters.toDate}
+          onChange={(event) =>
+            onChange((prev) => ({
+              ...prev,
+              toDate: event.target.value,
+            }))
+          }
+        />
+      </label>
+
+      <label className={styles.filtersField}>
+        Statuses
+        <select
+          multiple
+          value={filters.statuses}
+          onChange={(event) => handleMultiSelectChange(event, "statuses")}
+        >
+          {statusOptions.map((status) => (
+            <option key={status} value={status}>
+              {status}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <button type="submit" className={styles.filtersButton}>
+        Apply Filters
+      </button>
+    </form>
   );
 }
 

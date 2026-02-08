@@ -19,6 +19,13 @@ const createFiltersFormData = ({
   if (toDate) formData.append("toDate", toDate);
   if (dateType) formData.append("dateType", dateType);
 
+  if (listingMapIds && !Array.isArray(listingMapIds))
+    listingMapIds = [listingMapIds];
+
+  if (statuses && !Array.isArray(statuses)) statuses = [statuses];
+
+  if (channelIds && !Array.isArray(channelIds)) channelIds = [channelIds];
+
   (listingMapIds || []).forEach((listingId, i) => {
     formData.append(`listingMapIds[${i}]`, listingId);
   });
