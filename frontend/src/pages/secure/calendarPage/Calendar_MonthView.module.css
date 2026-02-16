@@ -1,0 +1,222 @@
+.monthView {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+}
+
+.controls select,
+.controls input {
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.monthControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.monthNavButton {
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #344054;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.monthNavButton:disabled {
+  color: #98a2b3;
+  border-color: #eaecf0;
+  cursor: not-allowed;
+}
+
+.calendarFrame {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #eaecf0;
+  border-radius: 10px;
+  background-color: #f8fafc;
+}
+
+.monthPicker {
+  width: 100%;
+  min-width: 960px;
+  --rdp-day-width: auto;
+  --rdp-day-height: auto;
+}
+
+.monthPicker :global(.rdp-months) {
+  width: 100%;
+}
+
+.monthPicker :global(.rdp-month) {
+  width: 100%;
+}
+
+.monthPicker :global(.rdp-month_caption) {
+  padding: 10px 12px 0;
+}
+
+.monthPicker :global(.rdp-caption_label) {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.monthPicker :global(.rdp-month_grid) {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.monthPicker :global(.rdp-weekday) {
+  font-size: 12px;
+  font-weight: 600;
+  color: #667085;
+  text-transform: uppercase;
+  padding: 8px 0;
+}
+
+.monthPicker :global(.rdp-day) {
+  width: 14.285%;
+  min-width: 128px;
+  height: 104px;
+  padding: 0;
+  position: relative;
+}
+
+.monthPicker :global(.rdp-day_button) {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #eaecf0;
+  border-radius: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+  color: #111827;
+  background-color: #ffffff;
+}
+
+.monthPicker :global(.rdp-day.outside .rdp-day_button) {
+  background-color: #f8fafc;
+  color: #98a2b3;
+}
+
+.monthPicker :global(.rdp-day.blocked .rdp-day_button) {
+  background-color: #e4e7ec;
+  color: #667085;
+}
+
+.monthPicker :global(.rdp-day.reserved::before),
+.monthPicker :global(.rdp-day.reservedStart::before),
+.monthPicker :global(.rdp-day.reservedMiddle::before),
+.monthPicker :global(.rdp-day.reservedEnd::before) {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30px;
+  height: 16px;
+  background-color: #fde047;
+  z-index: 0;
+}
+
+.monthPicker :global(.rdp-day.reservedStart::before) {
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.monthPicker :global(.rdp-day.reservedEnd::before) {
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.monthPicker :global(.rdp-day.reservedStart.reservedEnd::before) {
+  border-radius: 999px;
+}
+
+.monthPicker :global(.rdp-day.today .rdp-day_button) {
+  box-shadow: inset 0 0 0 2px #2563eb;
+}
+
+.monthPicker :global(.rdp-day:has(.rdp-day_button:focus-visible)) {
+  z-index: 2;
+}
+
+.dayCellContent {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 3px;
+  padding: 6px;
+  overflow: hidden;
+}
+
+.dayNumber {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.availablePrice {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.reservedText {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blockedText,
+.metaText {
+  font-size: 11px;
+  color: #475467;
+  line-height: 1.2;
+}
+
+.info {
+  color: #667085;
+  font-size: 13px;
+}
+
+.error {
+  color: #b42318;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .monthPicker {
+    min-width: 820px;
+  }
+
+  .monthPicker :global(.rdp-day) {
+    min-width: 112px;
+    height: 96px;
+  }
+}

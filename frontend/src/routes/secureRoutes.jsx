@@ -1,5 +1,8 @@
 import AnalyticsPage from "../pages/secure/analyticsPage/AnalyticsPage";
 import CalendarPage from "../pages/secure/calendarPage/CalendarPage";
+import Calendar_MonthView from "../pages/secure/calendarPage/views/Calendar_MonthView";
+import Calendar_MultiView from "../pages/secure/calendarPage/views/Calendar_MultiView";
+import Calendar_YearView from "../pages/secure/calendarPage/views/Calendar_YearView";
 import StatementsPage from "../pages/secure/statementsPage/StatementsPage";
 
 import SecureRootLayout from "../layouts/secureRootLayout/SecureRootLayout";
@@ -23,6 +26,28 @@ const routes = [
       {
         path: "calendar",
         Component: CalendarPage,
+        children: [
+          {
+            path: "",
+            Component: () => <Navigate to={"multi-view"} replace />,
+          },
+          {
+            path: "multi-view",
+            Component: Calendar_MultiView,
+          },
+          {
+            path: "year-view",
+            Component: Calendar_YearView,
+          },
+          {
+            path: "month-view",
+            Component: Calendar_MonthView,
+          },
+          {
+            path: "*",
+            Component: () => <Navigate to={"multi-view"} replace />,
+          },
+        ],
       },
       {
         path: "analytics",

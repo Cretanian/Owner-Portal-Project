@@ -1,0 +1,93 @@
+.calendarRoot :global(.scheduler_default_event) {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.calendarRoot :global(.scheduler_default_event:hover),
+.calendarRoot :global(.scheduler_default_event_continue:hover),
+.calendarRoot :global(.scheduler_default_event_continueleft:hover),
+.calendarRoot :global(.scheduler_default_event_continueright:hover) {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+}
+
+.calendarRoot
+  :global(.scheduler_default_event:hover .scheduler_default_event_inner),
+.calendarRoot
+  :global(
+    .scheduler_default_event_continue:hover .scheduler_default_event_inner
+  ),
+.calendarRoot
+  :global(
+    .scheduler_default_event_continueleft:hover .scheduler_default_event_inner
+  ),
+.calendarRoot
+  :global(
+    .scheduler_default_event_continueright:hover .scheduler_default_event_inner
+  ),
+.calendarRoot :global(.scheduler_default_event_inner:hover) {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.calendarRoot :global(.scheduler_default_event_inner) {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.calendarRoot :global(.scheduler_default_event_bar) {
+  display: none;
+}
+
+.calendarRoot :global(.scheduler_default_event.event-reserved),
+.calendarRoot :global(.scheduler_default_event_continue.event-reserved),
+.calendarRoot :global(.scheduler_default_event_continueleft.event-reserved),
+.calendarRoot :global(.scheduler_default_event_continueright.event-reserved) {
+  background-color: yellow;
+  border: none;
+}
+
+.calendarRoot :global(.scheduler_default_event.event-available),
+.calendarRoot :global(.scheduler_default_event_continue.event-available),
+.calendarRoot :global(.scheduler_default_event_continueleft.event-available),
+.calendarRoot :global(.scheduler_default_event_continueright.event-available) {
+  background-color: white;
+  border: none;
+}
+
+.calendarRoot :global(.scheduler_default_event.event-blocked),
+.calendarRoot :global(.scheduler_default_event_continue.event-blocked),
+.calendarRoot :global(.scheduler_default_event_continueleft.event-blocked),
+.calendarRoot :global(.scheduler_default_event_continueright.event-blocked) {
+  background-color: gray;
+  border: none;
+}
+
+.blocked {
+  width: 100%;
+  background-color: gray;
+  height: 35px;
+}
+
+.available {
+  width: 100%;
+  background-color: white;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.reserved {
+  width: 100%;
+  background-color: yellow;
+  height: 35px;
+
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}

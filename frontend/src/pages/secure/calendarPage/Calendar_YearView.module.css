@@ -1,0 +1,163 @@
+.yearView {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+}
+
+.controls select {
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.legend {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  color: #475467;
+  font-size: 12px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legendSwatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+}
+
+.legendReserved {
+  background-color: #22c55e;
+}
+
+.legendBlocked {
+  background-color: #9ca3af;
+}
+
+.monthsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 8px 10px;
+  min-width: 920px;
+}
+
+.monthTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #344054;
+  margin-bottom: 2px;
+}
+
+.monthPicker {
+  --rdp-day-width: 28px;
+  --rdp-day-height: 20px;
+  --rdp-day_button-width: 28px;
+  --rdp-day_button-height: 20px;
+  --rdp-day_button-border: 0;
+  --rdp-day_button-border-radius: 0;
+  --rdp-weekday-padding: 2px 0;
+}
+
+.monthPicker :global(.rdp-month_caption) {
+  display: none;
+}
+
+.monthPicker :global(.rdp-weekday) {
+  font-size: 10px;
+  font-weight: 500;
+  color: #98a2b3;
+}
+
+.monthPicker :global(.rdp-day) {
+  position: relative;
+  isolation: isolate;
+}
+
+.monthPicker :global(.rdp-day_button) {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 500;
+  color: #344054;
+}
+
+.monthPicker :global(.rdp-day.reserved),
+.monthPicker :global(.rdp-day.reservedMiddle),
+.monthPicker :global(.rdp-day.reservedStart),
+.monthPicker :global(.rdp-day.reservedEnd) {
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(50% - 5px),
+    #22c55e calc(50% - 5px),
+    #22c55e calc(50% + 5px),
+    transparent calc(50% + 5px)
+  );
+}
+
+.monthPicker :global(.rdp-day.blocked),
+.monthPicker :global(.rdp-day.blockedMiddle),
+.monthPicker :global(.rdp-day.blockedStart),
+.monthPicker :global(.rdp-day.blockedEnd) {
+  background-image: linear-gradient(
+    to bottom,
+    transparent calc(50% - 5px),
+    #9ca3af calc(50% - 5px),
+    #9ca3af calc(50% + 5px),
+    transparent calc(50% + 5px)
+  );
+}
+
+.monthPicker :global(.rdp-day.reservedStart),
+.monthPicker :global(.rdp-day.blockedStart) {
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.monthPicker :global(.rdp-day.reservedEnd),
+.monthPicker :global(.rdp-day.blockedEnd) {
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.monthPicker :global(.rdp-day.reservedStart.reservedEnd),
+.monthPicker :global(.rdp-day.blockedStart.blockedEnd) {
+  border-radius: 999px;
+}
+
+.monthPicker :global(.rdp-outside) {
+  visibility: hidden;
+}
+
+.monthPicker :global(.rdp-today .rdp-day_button) {
+  border: 1px solid #98a2b3;
+  border-radius: 999px;
+}
+
+.info {
+  color: #667085;
+  font-size: 13px;
+}
+
+.error {
+  color: #b42318;
+  font-size: 13px;
+}
