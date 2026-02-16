@@ -9,6 +9,7 @@ const db = require("./database");
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json({ limit: "15mb" }));
+
 app.use(cookieParser());
 
 const port = process.env.PORT || 5000;
