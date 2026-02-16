@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getStatementById, getStatements } from "../../../../api/statements";
+import { getStatementById } from "../../../../api/statements";
 import { DataGrid } from "@mui/x-data-grid";
 import { useParams } from "react-router";
 import { useMemo } from "react";
+import Heading from "../../../components/heading/Heading";
+import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
 function StatementPage() {
   const [statement, setStatement] = useState();
   const { statementId } = useParams();
@@ -46,21 +48,24 @@ function StatementPage() {
     fetchStatement();
   }, []);
 
-  if (!statement) return null;
-
   return (
-    <DataGrid
-      rows={bookings}
-      columns={tableColumns}
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 10,
-          },
-        },
-      }}
-      pageSizeOptions={[10]}
-    />
+    <>
+      <Heading level={1}>Statement {statementId}</Heading>
+      <LoaderContainer isLoading={!statement} minHeight="32vh">
+        <DataGrid
+          rows={bookings ?? []}
+          columns={tableColumns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+          pageSizeOptions={[10]}
+        />
+      </LoaderContainer>
+    </>
   );
 }
 

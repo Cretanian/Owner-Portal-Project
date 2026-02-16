@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../../../../api/auth";
+import Heading from "../../../components/heading/Heading";
+import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
 
 import styles from "./LoginPage.module.css";
 
@@ -23,7 +25,7 @@ function LoginPage() {
       await login(email, password);
 
       window.location.reload();
-    } catch (err) {
+    } catch {
       setIsSubmitting(false);
       setError("Login failed. Please check your credentials.");
     }
@@ -31,39 +33,43 @@ function LoginPage() {
 
   return (
     <div className={styles.page}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <h1 className={styles.title}>Login</h1>
+      <LoaderContainer isLoading={false}>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <Heading level={1} className={styles.title}>
+            Login
+          </Heading>
 
-        <label className={styles.label}>
-          Email
-          <input
-            className={styles.input}
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            autoComplete="email"
-            required
-          />
-        </label>
+          <label className={styles.label}>
+            Email
+            <input
+              className={styles.input}
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              autoComplete="email"
+              required
+            />
+          </label>
 
-        <label className={styles.label}>
-          Password
-          <input
-            className={styles.input}
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            autoComplete="current-password"
-            required
-          />
-        </label>
+          <label className={styles.label}>
+            Password
+            <input
+              className={styles.input}
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
+              required
+            />
+          </label>
 
-        {error && <p className={styles.error}>{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
 
-        <button className={styles.button} type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Signing in..." : "Sign In"}
-        </button>
-      </form>
+          <button className={styles.button} type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Signing in..." : "Sign In"}
+          </button>
+        </form>
+      </LoaderContainer>
     </div>
   );
 }

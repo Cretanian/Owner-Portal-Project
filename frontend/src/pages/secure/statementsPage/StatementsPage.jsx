@@ -7,6 +7,8 @@ import {
   getYear,
 } from "../../../utils/Utils";
 import { Link } from "react-router";
+import Heading from "../../../components/heading/Heading";
+import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
 
 function StatementsPage() {
   const [statements, setStatements] = useState();
@@ -49,21 +51,24 @@ function StatementsPage() {
     fetchStatements();
   }, []);
 
-  if (!statements) return null;
-
   return (
-    <DataGrid
-      rows={statements.map(transformStatementForTable)}
-      columns={tableColumns}
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 10,
-          },
-        },
-      }}
-      pageSizeOptions={[10]}
-    />
+    <>
+      <Heading level={1}>Statements</Heading>
+      <LoaderContainer isLoading={!statements} minHeight="32vh">
+        <DataGrid
+          rows={statements?.map(transformStatementForTable) ?? []}
+          columns={tableColumns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
+            },
+          }}
+          pageSizeOptions={[10]}
+        />
+      </LoaderContainer>
+    </>
   );
 }
 

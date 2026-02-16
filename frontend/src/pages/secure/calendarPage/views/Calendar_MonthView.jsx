@@ -15,6 +15,8 @@ import {
 } from "date-fns";
 import { useOutletContext } from "react-router";
 import Modal from "../../../../components/modal/Modal";
+import Heading from "../../../../components/heading/Heading";
+import LoaderContainer from "../../../../components/loaderContainer/LoaderContainer";
 import { getCalendarEventsPerListing } from "../../../../../api/calendar";
 import "react-day-picker/style.css";
 import styles from "../Calendar_MonthView.module.css";
@@ -239,6 +241,7 @@ function Calendar_MonthView() {
 
   return (
     <div className={styles.monthView}>
+      <Heading level={2}>Month View</Heading>
       <div className={styles.controls}>
         <label>
           Listing
@@ -284,26 +287,25 @@ function Calendar_MonthView() {
         </label>
       </div>
 
-      {isLoading && (
-        <div className={styles.info}>Loading calendar events...</div>
-      )}
       {loadError && <div className={styles.error}>{loadError}</div>}
 
-      {!isLoading && !loadError && (
-        <div className={styles.calendarFrame}>
-          <DayPicker
-            className={styles.monthPicker}
-            month={monthDate}
-            hideNavigation
-            showOutsideDays
-            fixedWeeks
-            weekStartsOn={1}
-            modifiers={modifiers}
-            modifiersClassNames={modifiersClassNames}
-            onDayClick={handleDayClick}
-            components={{ DayButton }}
-          />
-        </div>
+      {!loadError && (
+        <LoaderContainer isLoading={isLoading} minHeight="30vh">
+          <div className={styles.calendarFrame}>
+            <DayPicker
+              className={styles.monthPicker}
+              month={monthDate}
+              hideNavigation
+              showOutsideDays
+              fixedWeeks
+              weekStartsOn={1}
+              modifiers={modifiers}
+              modifiersClassNames={modifiersClassNames}
+              onDayClick={handleDayClick}
+              components={{ DayButton }}
+            />
+          </div>
+        </LoaderContainer>
       )}
 
       {modalData && (

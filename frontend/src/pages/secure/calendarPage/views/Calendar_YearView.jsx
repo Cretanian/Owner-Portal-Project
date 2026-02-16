@@ -3,6 +3,8 @@ import { DayPicker } from "react-day-picker";
 import { parseISO, subDays } from "date-fns";
 import { useOutletContext } from "react-router";
 import { getCalendarEventsPerListing } from "../../../../../api/calendar";
+import Heading from "../../../../components/heading/Heading";
+import LoaderContainer from "../../../../components/loaderContainer/LoaderContainer";
 import "react-day-picker/style.css";
 import styles from "../Calendar_YearView.module.css";
 
@@ -137,6 +139,7 @@ function Calendar_YearView() {
 
   return (
     <div className={styles.yearView}>
+      <Heading level={2}>Year View</Heading>
       <div className={styles.controls}>
         <label>
           Listing
@@ -167,29 +170,28 @@ function Calendar_YearView() {
         </label>
       </div>
 
-      {isLoading && (
-        <div className={styles.info}>Loading calendar events...</div>
-      )}
       {loadError && <div className={styles.error}>{loadError}</div>}
 
-      {!isLoading && !loadError && (
-        <div className={styles.monthsGrid}>
-          {months.map((month) => (
-            <div key={month.key}>
-              <div className={styles.monthTitle}>{month.label}</div>
-              <DayPicker
-                className={styles.monthPicker}
-                month={month.date}
-                hideNavigation
-                showOutsideDays={false}
-                fixedWeeks
-                weekStartsOn={1}
-                modifiers={modifiers}
-                modifiersClassNames={modifiersClassNames}
-              />
-            </div>
-          ))}
-        </div>
+      {!loadError && (
+        <LoaderContainer isLoading={isLoading} minHeight="30vh">
+          <div className={styles.monthsGrid}>
+            {months.map((month) => (
+              <div key={month.key}>
+                <div className={styles.monthTitle}>{month.label}</div>
+                <DayPicker
+                  className={styles.monthPicker}
+                  month={month.date}
+                  hideNavigation
+                  showOutsideDays={false}
+                  fixedWeeks
+                  weekStartsOn={1}
+                  modifiers={modifiers}
+                  modifiersClassNames={modifiersClassNames}
+                />
+              </div>
+            ))}
+          </div>
+        </LoaderContainer>
       )}
     </div>
   );

@@ -1,0 +1,109 @@
+/* Global MUI DataGrid skin: modern monochrome */
+.MuiDataGrid-root {
+  border: 1px solid #e8e8e8 !important;
+  border-radius: 14px !important;
+  background: #fcfcfc;
+  color: var(--text-default);
+  overflow: hidden;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeaders {
+  background: linear-gradient(180deg, #f7f7f8 0%, #f2f2f3 100%);
+  border-bottom: 1px solid #e7e7e7;
+  height: auto !important;
+  min-height: 52px !important;
+  max-height: none !important;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeaderTitle {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #575757;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  overflow: visible;
+  text-overflow: clip;
+  line-height: 1.25;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell,
+.MuiDataGrid-root .MuiDataGrid-columnHeader {
+  border-right: none;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeader {
+  height: auto !important;
+  align-items: flex-start;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  overflow: visible;
+  line-height: 1.25;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainerContent {
+  overflow: visible;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell {
+  border-top: 1px solid #f0f0f0;
+  font-size: 13px;
+}
+
+.MuiDataGrid-root .MuiDataGrid-row {
+  transition: background-color 140ms ease;
+}
+
+.MuiDataGrid-root .MuiDataGrid-row:hover {
+  background-color: #f7f7f7;
+}
+
+.MuiDataGrid-root .MuiDataGrid-row.Mui-selected,
+.MuiDataGrid-root .MuiDataGrid-row.Mui-selected:hover {
+  background-color: #efefef;
+}
+
+.MuiDataGrid-root .MuiDataGrid-cell:focus,
+.MuiDataGrid-root .MuiDataGrid-cell:focus-within,
+.MuiDataGrid-root .MuiDataGrid-columnHeader:focus,
+.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within {
+  outline: none;
+}
+
+.MuiDataGrid-root .MuiDataGrid-footerContainer {
+  border-top: 1px solid #e9e9e9;
+  background: #fafafa;
+}
+
+.MuiDataGrid-root .MuiDataGrid-selectedRowCount {
+  color: #606060;
+  font-size: 12px;
+}
+
+.MuiDataGrid-root .MuiTablePagination-root {
+  color: #4f4f4f;
+  font-size: 12px;
+}
+
+.MuiDataGrid-root .MuiTablePagination-selectLabel,
+.MuiDataGrid-root .MuiTablePagination-displayedRows {
+  font-size: 12px;
+  color: #666666;
+}
+
+.MuiDataGrid-root .MuiIconButton-root {
+  color: #575757;
+}
+
+.MuiDataGrid-root .MuiDataGrid-overlay {
+  background: #fcfcfc;
+}

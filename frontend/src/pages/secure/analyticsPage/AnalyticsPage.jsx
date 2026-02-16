@@ -20,6 +20,8 @@ import {
   ArcElement,
 } from "chart.js";
 import { getListings } from "../../../../api/listings";
+import Heading from "../../../components/heading/Heading";
+import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
 
 ChartJS.register(
   ArcElement,
@@ -45,11 +47,18 @@ function AnalyticsPage() {
     fetchListings();
   }, []);
 
-  if (!listings) return;
-
-  if (listings.length === 0) return "No listings";
-
-  return <AnalyticsPage_ listings={listings} />;
+  return (
+    <>
+      <Heading level={1}>Analytics</Heading>
+      <LoaderContainer isLoading={!listings} minHeight="35vh">
+        {listings?.length === 0 ? (
+          "No listings"
+        ) : (
+          <AnalyticsPage_ listings={listings} />
+        )}
+      </LoaderContainer>
+    </>
+  );
 }
 
 function AnalyticsPage_({ listings = [] }) {
@@ -103,43 +112,46 @@ function AnalyticsPage_({ listings = [] }) {
     fetchPerChannelAnalytics(filters);
   }, []);
 
-  if (!metrics || !monthlyAnalytics || !perChannelAnalytics) return;
-
   return (
-    <>
-      Filters
-      <AnalyticsFilters
-        filters={filters}
-        onChange={setFilters}
-        onApply={handleApplyFilters}
-        allListings={listings}
-      />
-      Metrics
-      <div className={styles.metrics}>
-        {Object.keys(metrics).map((key) => (
-          <div className={styles.numberChart}>
-            <div className={styles.numberChartTitle}> {key} </div>
-            <div className={styles.numberChartValue}> {metrics[key]} </div>
+    <LoaderContainer
+      isLoading={!metrics || !monthlyAnalytics || !perChannelAnalytics}
+      minHeight="35vh"
+    >
+      <>
+        <Heading level={3}>Filters</Heading>
+        <AnalyticsFilters
+          filters={filters}
+          onChange={setFilters}
+          onApply={handleApplyFilters}
+          allListings={listings}
+        />
+        <Heading level={3}>Metrics</Heading>
+        <div className={styles.metrics}>
+          {Object.keys(metrics ?? {}).map((key) => (
+            <div className={styles.numberChart}>
+              <div className={styles.numberChartTitle}> {key} </div>
+              <div className={styles.numberChartValue}> {metrics[key]} </div>
+            </div>
+          ))}
+        </div>
+        <Heading level={3}>Charts</Heading>
+        <div className={styles.grid}>
+          <div className={styles.chartWrapper}>
+            <RevenueOverTimeChart data={monthlyAnalytics} />
           </div>
-        ))}
-      </div>
-      Analytics
-      <div className={styles.grid}>
-        <div className={styles.chartWrapper}>
-          <RevenueOverTimeChart data={monthlyAnalytics} />
-        </div>
-        <div className={styles.chartWrapper}>
-          <RevenueByChannelPie data={perChannelAnalytics} />
-        </div>
+          <div className={styles.chartWrapper}>
+            <RevenueByChannelPie data={perChannelAnalytics} />
+          </div>
 
-        <div className={styles.chartWrapper}>
-          <NightsOverTimeChart data={monthlyAnalytics} />
+          <div className={styles.chartWrapper}>
+            <NightsOverTimeChart data={monthlyAnalytics} />
+          </div>
+          <div className={styles.chartWrapper}>
+            <NightsByChannelBar data={perChannelAnalytics} />
+          </div>
         </div>
-        <div className={styles.chartWrapper}>
-          <NightsByChannelBar data={perChannelAnalytics} />
-        </div>
-      </div>
-    </>
+      </>
+    </LoaderContainer>
   );
 }
 

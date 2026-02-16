@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router";
-import { getCalendarEventsPerUserId } from "../../../../api/calendar";
 import Tabs from "../../../components/tabs/Tabs";
 import { getListings } from "../../../../api/listings";
+import Heading from "../../../components/heading/Heading";
+import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
 
 function CalendarPage() {
   const [listings, setListings] = useState();
@@ -26,15 +27,20 @@ function CalendarPage() {
     fetchListings();
   }, []);
 
-  if (!listings) return;
-
-  if (listings.length === 0) return "No listings";
-
   return (
-    <div>
-      <Tabs tabs={tabs} />
-      <Outlet context={{ listings }} />
-    </div>
+    <>
+      <Heading level={1}>Calendar</Heading>
+      <LoaderContainer isLoading={!listings} minHeight="40vh">
+        {listings?.length === 0 ? (
+          "No listings"
+        ) : (
+          <>
+            <Tabs tabs={tabs} />
+            <Outlet context={{ listings }} />
+          </>
+        )}
+      </LoaderContainer>
+    </>
   );
 }
 

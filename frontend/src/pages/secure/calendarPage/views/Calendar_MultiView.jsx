@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { DayPilot, DayPilotScheduler } from "@daypilot/daypilot-lite-react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { useOutletContext } from "react-router";
 import Modal from "../../../../components/modal/Modal";
+import Heading from "../../../../components/heading/Heading";
+import LoaderContainer from "../../../../components/loaderContainer/LoaderContainer";
 import styles from "../CalendarPage.module.css";
 import { getCalendarEventsPerUserId } from "../../../../../api/calendar";
 
@@ -114,11 +115,12 @@ function Calendar_MultiView() {
     }));
   }, [listings]);
 
-  if (!listings) return;
-
   return (
     <div className={styles.calendarRoot}>
-      <DayPilotScheduler {...config} events={events} resources={resources} />
+      <Heading level={2}>Multi View</Heading>
+      <LoaderContainer isLoading={!listings} minHeight="35vh">
+        <DayPilotScheduler {...config} events={events} resources={resources} />
+      </LoaderContainer>
       {modalData && (
         <ReservationModal {...modalData} onClose={() => setModalData(null)} />
       )}

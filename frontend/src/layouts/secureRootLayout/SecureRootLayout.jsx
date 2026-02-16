@@ -4,6 +4,7 @@ import { MdOutlineAnalytics, MdOutlinePayments } from "react-icons/md";
 import Navbar from "../../components/navbar/Navbar";
 import { Outlet } from "react-router";
 import Footer from "../../components/footer/Footer";
+import LoaderContainer from "../../components/loaderContainer/LoaderContainer";
 
 import styles from "./SecureRootLayout.module.css";
 
@@ -35,7 +36,9 @@ function SecureRootLayout() {
     <div className={styles.page}>
       <Navbar links={links} />
       <div className={styles.content}>
-        <Outlet />
+        <LoaderContainer minHeight="40vh">
+          <Outlet />
+        </LoaderContainer>
       </div>
       <Footer />
     </div>

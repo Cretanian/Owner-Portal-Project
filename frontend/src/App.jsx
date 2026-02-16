@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import "./styles/DataGrid.css";
 
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
 import routeDispatcher from "./routes/routeDispatcher";

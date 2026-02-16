@@ -5,6 +5,8 @@ import {
 } from "../../../../api/users";
 import { DataGrid } from "@mui/x-data-grid";
 import Modal from "../../../components/modal/Modal";
+import Heading from "../../../components/heading/Heading";
+import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
 import styles from "./UsersPage.module.css";
 
 function UsersPage() {
@@ -36,22 +38,23 @@ function UsersPage() {
     fetchUsers();
   }, []);
 
-  if (!users) return null;
-
   return (
     <>
-      <DataGrid
-        rows={users.map(transformUserForTable)}
-        columns={tableColumns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 10,
+      <Heading level={1}>Users</Heading>
+      <LoaderContainer isLoading={!users} minHeight="32vh">
+        <DataGrid
+          rows={users?.map(transformUserForTable) ?? []}
+          columns={tableColumns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 10,
+              },
             },
-          },
-        }}
-        pageSizeOptions={[10]}
-      />
+          }}
+          pageSizeOptions={[10]}
+        />
+      </LoaderContainer>
     </>
   );
 }
