@@ -11,6 +11,10 @@
   margin-right: 40px;
 }
 
+.logoImage {
+  width: 40px;
+}
+
 .links {
   display: flex;
   gap: 20px;

@@ -1,9 +1,19 @@
+:root {
+  --layout-max-width: 1240px;
+  --layout-inline-padding: clamp(16px, 3vw, 32px);
+  --layout-block-padding: 24px;
+}
+
 body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   min-height: 100vh;
   margin: 0;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 * {

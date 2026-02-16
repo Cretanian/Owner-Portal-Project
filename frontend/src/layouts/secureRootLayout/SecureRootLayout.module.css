@@ -2,10 +2,15 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-height: 100vh;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  padding: var(--layout-block-padding) var(--layout-inline-padding) 32px;
 }

@@ -5,6 +5,8 @@ import { useUser } from "../../context/userContextProvider/UserContextProvider";
 import { logout } from "../../../api/auth";
 import { setAuthHeaders } from "../../../api";
 
+import logo from "../../../public/logo.svg";
+
 function Navbar({ links = [] }) {
   const { user, setUser } = useUser();
 
@@ -17,7 +19,9 @@ function Navbar({ links = [] }) {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}> LOGO </div>
+      <div className={styles.logo}>
+        <img className={styles.logoImage} src={logo} />
+      </div>
 
       <div className={styles.links}>
         {links.map((link) => (
