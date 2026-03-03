@@ -1,16 +1,12 @@
 const { DataTypes } = require("sequelize");
 
-module.exports = (db) => {
+module.exports = (sequelize) => {
   const models = {};
 
-  models.User = require("./user.model.js")(db.sequelize, models, DataTypes);
-  models.Session = require("./session.model.js")(
-    db.sequelize,
-    models,
-    DataTypes,
-  );
+  models.User = require("./user.model.js")(sequelize, models, DataTypes);
+  models.Session = require("./session.model.js")(sequelize, models, DataTypes);
   models.RefreshToken = require("./refreshToken.model.js")(
-    db.sequelize,
+    sequelize,
     models,
     DataTypes,
   );
