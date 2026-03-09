@@ -1,8 +1,14 @@
-import { useState } from "react";
+import { cloneElement, isValidElement, useState } from "react";
 import MuiPopover from "@mui/material/Popover";
 import styles from "./Popover.module.css";
 
-function Popover({ triggerLabel, title, children, triggerClassName = "" }) {
+function Popover({
+  trigger,
+  triggerLabel,
+  title,
+  children,
+  triggerClassName = "",
+}) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const isOpen = Boolean(anchorEl);
@@ -20,15 +26,27 @@ function Popover({ triggerLabel, title, children, triggerClassName = "" }) {
       ? children({ close: handleClose })
       : children;
 
+  const triggerNode =
+    trigger && isValidElement(trigger)
+      ? cloneElement(trigger, {
+          onClick: (event) => {
+            trigger.props.onClick?.(event);
+            handleOpen(event);
+          },
+        })
+      : null;
+
   return (
     <>
-      <button
-        type="button"
-        className={`${styles.trigger} ${triggerClassName}`.trim()}
-        onClick={handleOpen}
-      >
-        {triggerLabel}
-      </button>
+      {triggerNode ?? (
+        <button
+          type="button"
+          className={`${styles.trigger} ${triggerClassName}`.trim()}
+          onClick={handleOpen}
+        >
+          {triggerLabel}
+        </button>
+      )}
 
       <MuiPopover
         open={isOpen}

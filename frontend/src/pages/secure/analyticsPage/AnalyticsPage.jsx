@@ -25,6 +25,8 @@ import Heading from "../../../components/heading/Heading";
 import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
 import Popover from "../../../components/popover/Popover";
 import InfoTooltip from "../../../components/infoTooltip/InfoTooltip";
+import FiltersButton from "../../../components/buttons/FiltersButton";
+import ApplyButton from "../../../components/buttons/ApplyButton";
 import TextInput from "../../../components/formFields/TextInput";
 import SelectInput from "../../../components/formFields/SelectInput";
 import MultiSelectInput from "../../../components/formFields/MultiSelectInput";
@@ -128,14 +130,17 @@ function AnalyticsPage_({ listings = [] }) {
         level={1}
         right={
           !isAnalyticsLoading ? (
-            <Popover triggerLabel="Open Filters" title="Analytics Filters">
+            <Popover
+              trigger={<FiltersButton label="Filters" />}
+              title="Analytics Filters"
+            >
               {({ close }) => (
                 <AnalyticsFilters
                   filters={filters}
                   onApply={async (nextFilters) => {
-                    close();
-
                     await handleApplyFilters(nextFilters);
+
+                    close();
                   }}
                   allListings={listings}
                 />
@@ -232,8 +237,15 @@ function AnalyticsFilters({ filters, allListings, onApply }) {
     reset(filters);
   }, [filters, reset]);
 
+  const handleApplyClick = async () => {
+    await handleSubmit(onApply)();
+  };
+
   return (
-    <form className={styles.filtersForm} onSubmit={handleSubmit(onApply)}>
+    <form
+      className={styles.filtersForm}
+      onSubmit={(event) => event.preventDefault()}
+    >
       <Controller
         name="listingMapIds"
         control={control}
@@ -304,9 +316,11 @@ function AnalyticsFilters({ filters, allListings, onApply }) {
         )}
       />
 
-      <button type="submit" className={styles.filtersButton}>
-        Apply Filters
-      </button>
+      <ApplyButton
+        label="Apply Filters"
+        onClick={handleApplyClick}
+        className={styles.filtersApplyButton}
+      />
     </form>
   );
 }

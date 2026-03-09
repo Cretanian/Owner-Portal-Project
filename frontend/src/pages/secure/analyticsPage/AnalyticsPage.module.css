@@ -72,24 +72,9 @@
   max-width: 520px;
 }
 
-.filtersButton {
-  align-self: flex-start;
-  border: 0;
-  border-radius: 10px;
-  padding: 10px 14px;
-  background: linear-gradient(135deg, #1d2939, #344054);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    transform 120ms ease,
-    box-shadow 150ms ease;
-}
-
-.filtersButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(16, 24, 40, 0.2);
+.filtersApplyButton {
+  align-self: flex-end !important;
+  margin-top: 12px;
 }
 
 @media (max-width: 1100px) {
