@@ -1,6 +1,15 @@
 .container {
   width: 100%;
 }
+.container:not(.loading) {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  gap: 20px;
+}
 
 .loading {
   min-height: var(--loader-min-height, 160px);

@@ -1,13 +1,27 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 12px;
 }
 
-.form label {
-  display: flex;
+.modalButton {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #1d2939, #344054);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.form input {
-  margin-left: auto;
+.modalButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.85rem;
+  font-weight: 600;
 }

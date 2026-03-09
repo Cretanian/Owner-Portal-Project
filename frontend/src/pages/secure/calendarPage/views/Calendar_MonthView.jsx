@@ -17,6 +17,8 @@ import { useOutletContext } from "react-router";
 import Modal from "../../../../components/modal/Modal";
 import Heading from "../../../../components/heading/Heading";
 import LoaderContainer from "../../../../components/loaderContainer/LoaderContainer";
+import SelectInput from "../../../../components/formFields/SelectInput";
+import TextInput from "../../../../components/formFields/TextInput";
 import { getCalendarEventsPerListing } from "../../../../../api/calendar";
 import "react-day-picker/style.css";
 import styles from "../Calendar_MonthView.module.css";
@@ -36,6 +38,14 @@ function Calendar_MonthView() {
   const [selectedMonthDate, setSelectedMonthDate] = useState(currentMonth);
   const monthDate = selectedMonthDate;
   const monthInputValue = format(selectedMonthDate, "yyyy-MM");
+  const listingOptions = useMemo(
+    () =>
+      listings.map((listing) => ({
+        value: String(listing.id),
+        label: listing.name,
+      })),
+    [listings],
+  );
 
   const clampMonth = (month) => {
     if (isBefore(month, minMonth)) return minMonth;
@@ -243,22 +253,23 @@ function Calendar_MonthView() {
     <div className={styles.monthView}>
       <Heading level={2}>Month View</Heading>
       <div className={styles.controls}>
-        <label>
-          Listing
-          <select
-            value={selectedListingId}
-            onChange={(e) => setSelectedListingId(e.target.value)}
-          >
-            {listings.map((listing) => (
-              <option key={listing.id} value={listing.id}>
-                {listing.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SelectInput
+          label="Listing"
+          options={listingOptions}
+          value={selectedListingId}
+          onChange={setSelectedListingId}
+          menuPortalTarget={document.body}
+        />
 
-        <label>
-          Month
+        <div className={styles.monthField}>
+          <TextInput
+            label="Month"
+            type="month"
+            value={monthInputValue}
+            min={format(minMonth, "yyyy-MM")}
+            max={format(maxMonth, "yyyy-MM")}
+            onChange={(e) => handleMonthInputChange(e.target.value)}
+          />
           <div className={styles.monthControls}>
             <button
               type="button"
@@ -268,13 +279,6 @@ function Calendar_MonthView() {
             >
               Previous
             </button>
-            <input
-              type="month"
-              value={monthInputValue}
-              min={format(minMonth, "yyyy-MM")}
-              max={format(maxMonth, "yyyy-MM")}
-              onChange={(e) => handleMonthInputChange(e.target.value)}
-            />
             <button
               type="button"
               className={styles.monthNavButton}
@@ -284,7 +288,7 @@ function Calendar_MonthView() {
               Next
             </button>
           </div>
-        </label>
+        </div>
       </div>
 
       {loadError && <div className={styles.error}>{loadError}</div>}

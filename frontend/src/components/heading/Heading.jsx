@@ -7,6 +7,7 @@ function Heading({
   level = 1,
   className = "",
   children,
+  right,
   showBackButton,
   backLabel = "Go back",
   backTo,
@@ -14,13 +15,17 @@ function Heading({
   ...rest
 }) {
   const navigate = useNavigate();
+
   const normalizedLevel =
     Number.isInteger(level) && level >= 1 && level <= 6 ? level : 1;
   const Tag = `h${normalizedLevel}`;
+
   const shouldShowBackButton =
     typeof showBackButton === "boolean"
       ? showBackButton
       : normalizedLevel === 1;
+
+  const shouldRenderRow = shouldShowBackButton || Boolean(right);
 
   const handleBack = () => {
     if (onBack) {
@@ -41,30 +46,39 @@ function Heading({
     navigate("/", { replace: true });
   };
 
-  if (shouldShowBackButton) {
+  if (shouldRenderRow) {
     return (
       <div
         className={[styles.headingRow, styles[`rowH${normalizedLevel}`]]
           .filter(Boolean)
           .join(" ")}
       >
-        <button
-          type="button"
-          className={styles.backButton}
-          onClick={handleBack}
-          aria-label={backLabel}
-          title={backLabel}
-        >
-          <FiChevronLeft size={16} />
-        </button>
-        <Tag
-          className={[styles.heading, styles[`h${normalizedLevel}`], className]
-            .filter(Boolean)
-            .join(" ")}
-          {...rest}
-        >
-          {children}
-        </Tag>
+        <div className={styles.left}>
+          {shouldShowBackButton && (
+            <button
+              type="button"
+              className={styles.backButton}
+              onClick={handleBack}
+              aria-label={backLabel}
+              title={backLabel}
+            >
+              <FiChevronLeft size={16} />
+            </button>
+          )}
+          <Tag
+            className={[
+              styles.heading,
+              styles[`h${normalizedLevel}`],
+              className,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            {...rest}
+          >
+            {children}
+          </Tag>
+        </div>
+        {right && <div className={styles.right}>{right}</div>}
       </div>
     );
   }

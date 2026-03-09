@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   getAllUsers,
   setPassword as setUserPassword,
@@ -7,6 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Modal from "../../../components/modal/Modal";
 import Heading from "../../../components/heading/Heading";
 import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
+import TextInput from "../../../components/formFields/TextInput";
 import styles from "./UsersPage.module.css";
 
 function UsersPage() {
@@ -61,42 +63,39 @@ function UsersPage() {
 
 const SetPasswordButton = ({ user }) => {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [saveError, setSaveError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
   const formId = `set-password-${user.id}`;
 
   const handleClose = () => {
     setModalIsVisible(false);
-    setPassword("");
-    setConfirmPassword("");
-    setError("");
+    reset();
+    setSaveError("");
     setIsSaving(false);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError("");
-
-    if (!password || !confirmPassword) {
-      setError("Both password fields are required.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
+  const onSubmit = async ({ password }) => {
+    setSaveError("");
 
     try {
       setIsSaving(true);
       await setUserPassword(user.id, password);
       handleClose();
-    } catch (err) {
+    } catch {
       setIsSaving(false);
-      setError("Failed to set password.");
+      setSaveError("Failed to set password.");
     }
   };
 
@@ -109,33 +108,48 @@ const SetPasswordButton = ({ user }) => {
           onClose={handleClose}
           title={`Set password for ${user.email}`}
           footer={
-            <button type="submit" form={formId} disabled={isSaving}>
+            <button
+              className={styles.modalButton}
+              type="submit"
+              form={formId}
+              disabled={isSaving}
+            >
               {isSaving ? "Saving..." : "Set Password"}
             </button>
           }
         >
-          <form className={styles.form} id={formId} onSubmit={handleSubmit}>
-            <label>
-              Password
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                autoComplete="new-password"
-              />
-            </label>
+          <form
+            className={styles.form}
+            id={formId}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <TextInput
+              label="Password"
+              type="password"
+              autoComplete="new-password"
+              error={errors.password?.message}
+              {...register("password", {
+                required: "Password is required.",
+                minLength: {
+                  value: 1,
+                  message: "Password is required.",
+                },
+              })}
+            />
 
-            <label>
-              Confirm Password
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                autoComplete="new-password"
-              />
-            </label>
+            <TextInput
+              label="Confirm Password"
+              type="password"
+              autoComplete="new-password"
+              error={errors.confirmPassword?.message}
+              {...register("confirmPassword", {
+                required: "Please confirm the password.",
+                validate: (value, formValues) =>
+                  value === formValues.password || "Passwords do not match.",
+              })}
+            />
 
-            {error && <p>{error}</p>}
+            {saveError && <p className={styles.error}>{saveError}</p>}
           </form>
         </Modal>
       )}

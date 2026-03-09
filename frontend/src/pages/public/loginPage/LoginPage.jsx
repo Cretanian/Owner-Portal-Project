@@ -1,24 +1,28 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { login } from "../../../../api/auth";
 import Heading from "../../../components/heading/Heading";
 import LoaderContainer from "../../../components/loaderContainer/LoaderContainer";
+import TextInput from "../../../components/formFields/TextInput";
 
 import styles from "./LoginPage.module.css";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async ({ email, password }) => {
     setError("");
-
-    if (!email || !password) {
-      setError("Email and password are required.");
-      return;
-    }
 
     try {
       setIsSubmitting(true);
@@ -34,34 +38,36 @@ function LoginPage() {
   return (
     <div className={styles.page}>
       <LoaderContainer isLoading={false}>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <Heading level={1} className={styles.title}>
             Login
           </Heading>
 
-          <label className={styles.label}>
-            Email
-            <input
-              className={styles.input}
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              autoComplete="email"
-              required
-            />
-          </label>
+          <TextInput
+            label="Email"
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            error={errors.email?.message}
+            {...register("email", {
+              required: "Email is required.",
+              pattern: {
+                value: /^\S+@\S+\.\S+$/,
+                message: "Enter a valid email address.",
+              },
+            })}
+          />
 
-          <label className={styles.label}>
-            Password
-            <input
-              className={styles.input}
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              autoComplete="current-password"
-              required
-            />
-          </label>
+          <TextInput
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Enter your password"
+            error={errors.password?.message}
+            {...register("password", {
+              required: "Password is required.",
+            })}
+          />
 
           {error && <p className={styles.error}>{error}</p>}
 

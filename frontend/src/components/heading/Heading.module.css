@@ -1,7 +1,20 @@
 .headingRow {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
   gap: 10px;
+  min-width: 0;
+}
+
+.right {
+  margin-left: auto;
 }
 
 .headingRow .heading {

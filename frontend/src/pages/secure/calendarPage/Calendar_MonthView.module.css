@@ -8,25 +8,22 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  align-items: flex-end;
 }
 
-.controls label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+.controls > * {
   min-width: 200px;
 }
 
-.controls select,
-.controls input {
-  border: 1px solid #d0d5dd;
-  border-radius: 8px;
-  padding: 8px;
+.monthField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .monthControls {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 8px;
 }
 

@@ -5,6 +5,7 @@ import { useOutletContext } from "react-router";
 import { getCalendarEventsPerListing } from "../../../../../api/calendar";
 import Heading from "../../../../components/heading/Heading";
 import LoaderContainer from "../../../../components/loaderContainer/LoaderContainer";
+import SelectInput from "../../../../components/formFields/SelectInput";
 import "react-day-picker/style.css";
 import styles from "../Calendar_YearView.module.css";
 
@@ -66,6 +67,22 @@ function Calendar_YearView() {
       currentYear + 2,
     ];
   }, []);
+  const listingOptions = useMemo(
+    () =>
+      listings.map((listing) => ({
+        value: String(listing.id),
+        label: listing.name,
+      })),
+    [listings],
+  );
+  const yearOptions = useMemo(
+    () =>
+      years.map((year) => ({
+        value: year,
+        label: String(year),
+      })),
+    [years],
+  );
 
   const months = useMemo(() => {
     return Array.from({ length: 12 }, (_, monthIndex) => ({
@@ -141,33 +158,21 @@ function Calendar_YearView() {
     <div className={styles.yearView}>
       <Heading level={2}>Year View</Heading>
       <div className={styles.controls}>
-        <label>
-          Listing
-          <select
-            value={selectedListingId}
-            onChange={(e) => setSelectedListingId(e.target.value)}
-          >
-            {listings.map((listing) => (
-              <option key={listing.id} value={listing.id}>
-                {listing.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SelectInput
+          label="Listing"
+          options={listingOptions}
+          value={selectedListingId}
+          onChange={setSelectedListingId}
+          menuPortalTarget={document.body}
+        />
 
-        <label>
-          Year
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(Number(e.target.value))}
-          >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SelectInput
+          label="Year"
+          options={yearOptions}
+          value={selectedYear}
+          onChange={(year) => setSelectedYear(Number(year))}
+          menuPortalTarget={document.body}
+        />
       </div>
 
       {loadError && <div className={styles.error}>{loadError}</div>}

@@ -1,0 +1,37 @@
+.iconButton {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #d0d5dd;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  color: #475467;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: help;
+  transition: all 150ms ease;
+}
+
+.iconButton:hover {
+  border-color: #98a2b3;
+  color: #1d2939;
+  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.14);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid #b8c9ff;
+  outline-offset: 1px;
+}
+
+.tooltip {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  max-width: 280px;
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.arrow {
+  color: #111827;
+}
